@@ -101,7 +101,7 @@ const useCodeMirror = <T extends Element>(props: Props): [React.MutableRefObject
 			parent: refContainer.current
 		})
 		setEditorView(view)
-	}, [refContainer])
+	}, [refContainer, onChange, props.initialDoc])
 	
 	return [refContainer, editorView]
 
