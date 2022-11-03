@@ -4,9 +4,9 @@ import Editor from '../editor'
 
 export default function Home() {
 
-	const [doc, setDoc] = useState<string>();
+	const [doc, setDoc] = useState<string>('# Welcome');
 
-	const handleDocChange = useCallback(newDoc => {
+	const handleDocChange = useCallback((newDoc: string) => {
 		setDoc(newDoc)
 	}, [])
 
@@ -16,7 +16,7 @@ export default function Home() {
 				<Editor onChange={handleDocChange} initialDoc={doc} />
 			</Box>
 			<Box flex='0.5' minH="100vh" bg='green.400'>
-				I am writing this a lot later to test ou Next structure.
+				I am writing this a lot later to test out Next structure.
 			</Box>
 		</Flex>
   )

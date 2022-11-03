@@ -1,7 +1,7 @@
 import { EditorState} from '@codemirror/state'
 import {useState, useEffect, useRef} from 'react'
 import {EditorView, keymap, highlightActiveLine} from '@codemirror/view'
-import {defaultKeymap} from '@codemirror/commands'
+import {defaultKeymap, indentWithTab} from '@codemirror/commands'
 import {history, historyKeymap} from '@codemirror/history'
 import {bracketMatching} from '@codemirror/matchbrackets'
 import {lineNumbers, highlightActiveLineGutter} from '@codemirror/gutter'
@@ -66,12 +66,11 @@ const useCodeMirror = <T extends Element>(props: Props): [React.MutableRefObject
 
 	useEffect(() => {
 		if (!refContainer.current) return
-
 			
 		const startState = EditorState.create({
 			doc: props.initialDoc,
 			extensions: [
-				keymap.of([...defaultKeymap, ...historyKeymap]),
+				keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
 				lineNumbers(),
 				highlightActiveLineGutter(),
 				history(),

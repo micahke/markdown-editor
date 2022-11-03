@@ -1,6 +1,7 @@
 import {Box} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react'
 import useCodeMirror from './use-codemirror';
+import {EditorState} from '@codemirror/state'
 // import './style/editor.css'
 
 
@@ -13,7 +14,7 @@ const Editor: React.FC<Props> = (props) => {
 
 	const {onChange, initialDoc} = props
 
-	const handleChange = useCallback(state =>
+	const handleChange = useCallback((state: EditorState) =>
 		onChange(state.doc.toString()),
 		[onChange]
 	)
@@ -35,7 +36,7 @@ const Editor: React.FC<Props> = (props) => {
 	}, [editorView])
 
 
-	return <Box height='100%' overflowY='hidden' ref={refContainer}></Box>
+	return <Box height='100%' ref={refContainer}></Box>
 }
 
 export default Editor;
