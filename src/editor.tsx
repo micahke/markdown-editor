@@ -27,7 +27,6 @@ const Editor: React.FC<Props> = (props) => {
 	useEffect(() => {
 	console.log('rendering editor')
 		if (editorView) {
-			
 		}
 
 		return function cleanUp() {

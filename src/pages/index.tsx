@@ -9,7 +9,7 @@ export default function Home() {
 
 	const handleDocChange = useCallback((newDoc: string) => {
 		setDoc(newDoc)
-	}, [])
+	}, [doc])
 
   return (
 		<Flex>
