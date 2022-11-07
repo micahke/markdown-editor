@@ -98,7 +98,7 @@ const useCodeMirror = <T extends Element>(
     });
     console.log("Creating editor: " + i);
     i++;
-    if (i == 1) {
+    if (i < 2) {
       const view = new EditorView({
         state: startState,
         parent: refContainer.current,

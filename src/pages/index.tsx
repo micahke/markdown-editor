@@ -1,24 +1,54 @@
-import { Box, Flex } from '@chakra-ui/react'
-import {useCallback, useState} from 'react';
-import Editor from '../editor'
-import Preview from '../preview';
+import {
+  Button,
+  useDisclosure,
+  Center,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+import Editor from "../components/editor/editor";
+import JoinRoomButton from "../components/modals/join-room";
+import Preview from "../components/preview/preview";
+import { createRoom } from "../core/room";
+import { joinRoom } from "../core/socket";
 
 export default function Home() {
+  const { push } = useRouter();
+  const toast = useToast();
 
-	const [doc, setDoc] = useState<string>('# Welcome');
+  const navigateToRoom = () => {
+    createRoom().then((roomData: any) => {
+      console.log("done");
+      if (roomData) {
+        console.log(roomData);
+        joinRoom(roomData.roomID);
+        push(`/editor/${roomData.roomID}`);
+      } else {
+        toast({
+          title: "Error creating document",
+          position: "bottom-left",
+          status: "error",
+          isClosable: true,
+        });
+      }
+    });
+  };
 
-	const handleDocChange = useCallback((newDoc: string) => {
-		setDoc(newDoc)
-	}, [doc])
+  const goToEditor = () => {
+    push("/editor");
+  };
 
   return (
-		<Flex>
-			<Box flex='0.5' minH="100vh" bg='blue.200'>
-				<Editor onChange={handleDocChange} initialDoc={doc} />
-			</Box>
-			<Box flex='0.5' minH="100vh" bg='#F2EFE3'>
-				<Preview doc={doc} />
-			</Box>
-		</Flex>
-  )
+    <Center height="100vh" backgroundColor="gray.800">
+      <VStack>
+        <Button colorScheme="teal" size="lg" onClick={navigateToRoom}>
+          Go to app
+        </Button>
+        <Button colorScheme="gray" size="md" onClick={goToEditor}>
+          Just write
+        </Button>
+      </VStack>
+    </Center>
+  );
 }
