@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const URL = 'http://localhost:2500'
+const URL = 'https://markdown--server.herokuapp.com'
 export const socket = io(URL, {
     autoConnect: false,
 })
@@ -11,4 +11,9 @@ export function joinRoom(room: string) {
         room: room
     }
     socket.connect()
+}
+
+
+export function updateLiveDoc(doc: string) {
+    socket.emit('update-doc', doc)
 }

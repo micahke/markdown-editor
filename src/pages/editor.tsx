@@ -6,7 +6,7 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Editor from "../components/editor/editor";
 import JoinRoomButton from "../components/modals/join-room";
 import Preview from "../components/preview/preview";
@@ -17,11 +17,6 @@ interface Props {
 
 export default function Application(props: Props) {
   const { roomID } = props;
-  const [doc, setDoc] = useState<string>("# Welcome");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleDocChange = useCallback((newDoc: string) => {
-    setDoc(newDoc);
-  }, []);
 
   return (
     <Box>
@@ -49,10 +44,10 @@ export default function Application(props: Props) {
       </Flex>
       <Flex>
         <Box flex="0.5" minH="92vh" maxH="92vh" overflowY="scroll" bg="none">
-          <Editor onChange={handleDocChange} initialDoc={doc} />
+          <Editor />
         </Box>
         <Box flex="0.5" minH="92vh" maxH="92vh" overflowY="scroll" bg="#F2EFE3">
-          <Preview doc={doc} />
+          <Preview />
         </Box>
       </Flex>
     </Box>

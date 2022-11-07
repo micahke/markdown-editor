@@ -2,23 +2,20 @@ import { Box } from "@chakra-ui/react";
 import React, { useCallback, useEffect } from "react";
 import useCodeMirror from "./use-codemirror";
 import { EditorState } from "@codemirror/state";
+import { useLive } from "../contexts/useLive";
 // import './style/editor.css'
 
-interface Props {
-  initialDoc: string;
-  onChange: (doc: string) => void;
-}
-
-const Editor: React.FC<Props> = (props) => {
-  const { onChange, initialDoc } = props;
+const Editor: React.FC = () => {
+  const { doc, updateDoc } = useLive();
 
   const handleChange = useCallback(
-    (state: EditorState) => onChange(state.doc.toString()),
-    [onChange]
+    (state: EditorState) => {
+      updateDoc(state.doc.toString());
+    },
+    [updateDoc]
   );
 
   const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
-    initialDoc: initialDoc,
     onChange: handleChange,
   });
 

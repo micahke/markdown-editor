@@ -16,6 +16,7 @@ import { languages } from "@codemirror/language-data";
 import { oneDark } from "@codemirror/theme-one-dark";
 import type React from "react";
 import { indentOnInput } from "@codemirror/language";
+import { useLive } from "../contexts/useLive";
 
 export const myTheme = EditorView.theme({
   "&": {
@@ -53,24 +54,21 @@ const syntaxHighlighting = HighlightStyle.define([
 ]);
 
 interface Props {
-  initialDoc: string;
   onChange?: (state: EditorState) => void;
 }
-
-let i = 0;
 
 const useCodeMirror = <T extends Element>(
   props: Props
 ): [React.MutableRefObject<T | null>, EditorView?] => {
   const refContainer = useRef<T>(null);
-  const [editorView, setEditorView] = useState<EditorView>();
   const { onChange } = props;
+  const { doc } = useLive();
 
   useEffect(() => {
     if (!refContainer.current) return;
 
     const startState = EditorState.create({
-      doc: props.initialDoc,
+      doc: doc,
       extensions: [
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         lineNumbers(),
@@ -92,22 +90,23 @@ const useCodeMirror = <T extends Element>(
         EditorView.updateListener.of((update) => {
           if (update.changes) {
             onChange && onChange(update.state);
+            console.log(doc);
           }
         }),
       ],
     });
-    console.log("Creating editor: " + i);
-    i++;
-    if (i < 2) {
-      const view = new EditorView({
-        state: startState,
-        parent: refContainer.current,
-      });
-      setEditorView(view);
-    }
-  }, [refContainer, onChange, props.initialDoc]);
 
-  return [refContainer, editorView];
+    const view = new EditorView({
+      state: startState,
+      parent: refContainer.current,
+    });
+
+    return () => {
+      view.destroy();
+    };
+  }, []);
+
+  return [refContainer];
 };
 
 export default useCodeMirror;
