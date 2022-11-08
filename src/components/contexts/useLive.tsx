@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { EditorView } from "@codemirror/view";
 import { socket, updateLiveDoc } from "../../core/socket";
+import { EditorState } from "@codemirror/state";
 
 export type LiveDocument = {
   doc: string;
   updateDoc: (newDoc: string) => void;
+  editor: EditorView | null;
+  updateEditor: (newEditor: EditorView) => void;
 };
 
 interface Props {
@@ -20,6 +24,7 @@ export function useLive() {
 
 export const LiveDocProvider: React.FC<Props> = ({ children }) => {
   const [doc, setDoc] = React.useState("# Welcome");
+  const [editor, setEditor] = useState<EditorView | null>(null);
 
   function updateDoc(newDoc: string) {
     setDoc(newDoc);
@@ -29,14 +34,29 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
+  function updateEditor(newEditor: EditorView) {
+    setEditor(newEditor);
+  }
+
   socket.on("doc-updated", (updatedDoc) => {
     console.log("updated");
     setDoc(updatedDoc);
+    if (editor) {
+      editor.dispatch({
+        changes: {
+          from: 0,
+          to: editor.state.doc.toString().length,
+          insert: updatedDoc,
+        },
+      });
+    }
   });
 
   const data = {
     doc,
     updateDoc,
+    editor,
+    updateEditor,
   };
 
   return (

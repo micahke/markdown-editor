@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useCallback, useEffect } from "react";
 import useCodeMirror from "./use-codemirror";
 import { EditorState } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
 import { useLive } from "../contexts/useLive";
 // import './style/editor.css'
 
@@ -23,7 +24,6 @@ const Editor: React.FC = () => {
     console.log("rendering editor");
     if (editorView) {
     }
-
     return function cleanUp() {};
   }, [editorView]);
 

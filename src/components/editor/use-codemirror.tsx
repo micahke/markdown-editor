@@ -1,6 +1,11 @@
-import { EditorState } from "@codemirror/state";
+import { EditorState, Transaction } from "@codemirror/state";
 import { useState, useEffect, useRef } from "react";
-import { EditorView, keymap, highlightActiveLine } from "@codemirror/view";
+import {
+  EditorView,
+  keymap,
+  highlightActiveLine,
+  ViewUpdate,
+} from "@codemirror/view";
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { history, historyKeymap } from "@codemirror/history";
 import { bracketMatching } from "@codemirror/matchbrackets";
@@ -10,7 +15,6 @@ import {
   HighlightStyle,
   tags,
 } from "@codemirror/highlight";
-import { javascript } from "@codemirror/lang-javascript";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { oneDark } from "@codemirror/theme-one-dark";
@@ -57,12 +61,23 @@ interface Props {
   onChange?: (state: EditorState) => void;
 }
 
+function isViewUpdateFromUser(update: ViewUpdate) {
+  // check transactions
+  for (const transaction of update.transactions) {
+    const userEventType = transaction.annotation(Transaction.userEvent);
+    if (userEventType) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const useCodeMirror = <T extends Element>(
   props: Props
 ): [React.MutableRefObject<T | null>, EditorView?] => {
   const refContainer = useRef<T>(null);
   const { onChange } = props;
-  const { doc } = useLive();
+  const { doc, updateEditor } = useLive();
 
   useEffect(() => {
     if (!refContainer.current) return;
@@ -88,9 +103,11 @@ const useCodeMirror = <T extends Element>(
         myTheme,
         EditorView.lineWrapping,
         EditorView.updateListener.of((update) => {
-          if (update.changes) {
-            onChange && onChange(update.state);
-            console.log(doc);
+          if (update.docChanged) {
+            if (isViewUpdateFromUser(update)) {
+              onChange && onChange(update.state);
+            } else {
+            }
           }
         }),
       ],
@@ -101,10 +118,12 @@ const useCodeMirror = <T extends Element>(
       parent: refContainer.current,
     });
 
+    updateEditor(view);
+
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [refContainer.current]);
 
   return [refContainer];
 };

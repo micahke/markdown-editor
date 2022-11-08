@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
 
-const URL = 'https://markdown--server.herokuapp.com'
-export const socket = io(URL, {
+
+export const API_PREFIX = 'https://markdown--server.herokuapp.com';
+
+export const socket = io(API_PREFIX, {
     autoConnect: false,
 })
 
