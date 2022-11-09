@@ -1,21 +1,25 @@
 import { io } from "socket.io-client";
 
 
-export const API_PREFIX = 'https://markdown--server.herokuapp.com';
+export const API_PREFIX = 'http://localhost:2500';
 
 export const socket = io(API_PREFIX, {
     autoConnect: false,
 })
 
 
-export function joinRoom(room: string) {
+export function joinRoom(room: string, name: string) {
     socket.auth = {
-        room: room
+        room: room,
+        username: name
     }
-    socket.connect()
+    if (!socket.active) {
+        socket.connect()
+    }
 }
 
 
 export function updateLiveDoc(doc: string) {
+    console.log('sending update')
     socket.emit('update-doc', doc)
 }

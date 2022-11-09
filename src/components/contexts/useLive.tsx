@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { EditorView } from "@codemirror/view";
 import { socket, updateLiveDoc } from "../../core/socket";
 import { EditorState } from "@codemirror/state";
+import { useToast } from "@chakra-ui/react";
 
 export type LiveDocument = {
   doc: string;
@@ -25,6 +26,7 @@ export function useLive() {
 export const LiveDocProvider: React.FC<Props> = ({ children }) => {
   const [doc, setDoc] = React.useState("# Welcome");
   const [editor, setEditor] = useState<EditorView | null>(null);
+  const toast = useToast();
 
   function updateDoc(newDoc: string) {
     setDoc(newDoc);
@@ -38,19 +40,32 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
     setEditor(newEditor);
   }
 
-  socket.on("doc-updated", (updatedDoc) => {
-    console.log("updated");
-    setDoc(updatedDoc);
-    if (editor) {
-      editor.dispatch({
-        changes: {
-          from: 0,
-          to: editor.state.doc.toString().length,
-          insert: updatedDoc,
-        },
+  useEffect(() => {
+    socket.on("doc-updated", (updatedDoc) => {
+      console.log("updated");
+      setDoc(updatedDoc);
+      if (editor) {
+        editor.dispatch({
+          changes: {
+            from: 0,
+            to: editor.state.doc.toString().length,
+            insert: updatedDoc,
+          },
+        });
+      }
+    });
+
+    socket.on("user-connected", (username) => {
+      toast({
+        title: `${username} has joined the room`,
+        position: "bottom",
       });
-    }
-  });
+    });
+    return () => {
+      socket.off("doc-updated");
+      socket.off("user-connected");
+    };
+  }, [socket, doc]);
 
   const data = {
     doc,

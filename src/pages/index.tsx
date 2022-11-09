@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import Editor from "../components/editor/editor";
-import JoinRoomButton from "../components/modals/join-room";
+import JoinRoomButton from "../components/modals/invite";
 import Preview from "../components/preview/preview";
 import { createRoom } from "../core/room";
 import { joinRoom } from "../core/socket";
@@ -22,8 +22,14 @@ export default function Home() {
       console.log("done");
       if (roomData) {
         console.log(roomData);
-        joinRoom(roomData.roomID);
-        push(`/editor/${roomData.roomID}`);
+        const pushLoc = `/editor/${roomData.roomID}`;
+        push(
+          {
+            pathname: pushLoc,
+            query: { creator: true },
+          },
+          pushLoc
+        );
       } else {
         toast({
           title: "Error creating document",

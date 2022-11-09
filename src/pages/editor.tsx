@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import Editor from "../components/editor/editor";
-import JoinRoomButton from "../components/modals/join-room";
+import InviteButton from "../components/modals/invite";
 import Preview from "../components/preview/preview";
 
 interface Props {
@@ -33,10 +33,7 @@ export default function Application(props: Props) {
         <Spacer />
         {roomID ? (
           <>
-            <JoinRoomButton />
-            <Button colorScheme="gray" size="sm">
-              Invite
-            </Button>
+            <InviteButton roomID={roomID} />
           </>
         ) : (
           <></>
