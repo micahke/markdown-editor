@@ -15,6 +15,7 @@ import {
   Kbd,
 } from "@chakra-ui/react";
 import React from "react";
+import { useLive } from "../contexts/useLive";
 
 interface Props {
   roomID: string;
@@ -22,7 +23,10 @@ interface Props {
 
 const InviteButton: React.FC<Props> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { code } = useLive();
   const { roomID } = props;
+
+  const msg = "Only the host can share the room code.";
 
   return (
     <>
@@ -43,7 +47,12 @@ const InviteButton: React.FC<Props> = (props) => {
               </Tag>
               <Text>Room passcode:</Text>
               <Center>
-                <Tag size="lg">OHFshf</Tag>
+                <Tag
+                  size={code ? "lg" : "md"}
+                  colorScheme={code ? "gray" : "red"}
+                >
+                  {code ? code : msg}
+                </Tag>
               </Center>
             </VStack>
           </ModalBody>

@@ -9,6 +9,8 @@ export type LiveDocument = {
   updateDoc: (newDoc: string) => void;
   editor: EditorView | null;
   updateEditor: (newEditor: EditorView) => void;
+  code: string;
+  setCode: (newCode: string) => void;
 };
 
 interface Props {
@@ -26,6 +28,7 @@ export function useLive() {
 export const LiveDocProvider: React.FC<Props> = ({ children }) => {
   const [doc, setDoc] = React.useState("# Welcome");
   const [editor, setEditor] = useState<EditorView | null>(null);
+  const [code, setCode] = useState("");
   const toast = useToast();
 
   function updateDoc(newDoc: string) {
@@ -72,6 +75,8 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
     updateDoc,
     editor,
     updateEditor,
+    code,
+    setCode,
   };
 
   return (

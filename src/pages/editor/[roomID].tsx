@@ -5,6 +5,7 @@ import Application from "../editor";
 import { GetServerSideProps, NextPageContext } from "next";
 import JoinModal from "../../components/modals/join";
 import { Box, useToast } from "@chakra-ui/react";
+import { authenticatePasscode } from "../../core/room";
 
 export default function Room() {
   const router = useRouter();
@@ -12,9 +13,17 @@ export default function Room() {
   const [validated, setValidated] = useState(false);
   const toast = useToast();
 
-  const attemptValidation = (name: string, pin: string) => {
-    joinRoom(rid as string, name);
-    setValidated(true);
+  const attemptValidation = async (name: string, pin: string) => {
+    if (await authenticatePasscode(rid as string, pin)) {
+      joinRoom(rid as string, name);
+      setValidated(true);
+    } else {
+      toast({
+        title: "Error",
+        description: "Please enter the correct room code",
+        status: "error",
+      });
+    }
   };
 
   useEffect(() => {

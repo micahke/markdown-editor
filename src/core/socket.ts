@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
 
-export const API_PREFIX = 'http://localhost:2500';
+export const API_PREFIX = process.env.NEXT_PUBLIC_API_URL as string;
 
 export const socket = io(API_PREFIX, {
     autoConnect: false,

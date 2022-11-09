@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Spacer,
-  Button,
-  Heading,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { Box, Flex, Spacer, Heading } from "@chakra-ui/react";
 import Editor from "../components/editor/editor";
 import InviteButton from "../components/modals/invite";
 import Preview from "../components/preview/preview";

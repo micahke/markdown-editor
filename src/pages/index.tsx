@@ -1,27 +1,20 @@
-import {
-  Button,
-  useDisclosure,
-  Center,
-  useToast,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Center, Spinner, useToast, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
-import Editor from "../components/editor/editor";
-import JoinRoomButton from "../components/modals/invite";
-import Preview from "../components/preview/preview";
+import { useState } from "react";
+import { useLive } from "../components/contexts/useLive";
 import { createRoom } from "../core/room";
-import { joinRoom } from "../core/socket";
 
 export default function Home() {
   const { push } = useRouter();
   const toast = useToast();
+  const { setCode } = useLive();
+  const [loading, setLoading] = useState(false);
 
   const navigateToRoom = () => {
+    setLoading(true);
     createRoom().then((roomData: any) => {
-      console.log("done");
       if (roomData) {
-        console.log(roomData);
+        setCode(roomData.code);
         const pushLoc = `/editor/${roomData.roomID}`;
         push(
           {
@@ -37,6 +30,7 @@ export default function Home() {
           status: "error",
           isClosable: true,
         });
+        setLoading(false);
       }
     });
   };
@@ -48,9 +42,20 @@ export default function Home() {
   return (
     <Center height="100vh" backgroundColor="gray.800">
       <VStack>
-        <Button colorScheme="teal" size="lg" onClick={navigateToRoom}>
-          Go to app
-        </Button>
+        {!loading ? (
+          <Button colorScheme="teal" size="lg" onClick={navigateToRoom}>
+            Go to app
+          </Button>
+        ) : (
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="teal"
+            size="xl"
+            mb="5"
+          />
+        )}
         <Button colorScheme="gray" size="md" onClick={goToEditor}>
           Just write
         </Button>
