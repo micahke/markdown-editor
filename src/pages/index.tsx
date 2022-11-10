@@ -7,7 +7,7 @@ import { createRoom } from "../core/room";
 export default function Home() {
   const { push } = useRouter();
   const toast = useToast();
-  const { setCode } = useLive();
+  const { setCode, setDoc } = useLive();
   const [loading, setLoading] = useState(false);
 
   const navigateToRoom = () => {
@@ -15,6 +15,7 @@ export default function Home() {
     createRoom().then((roomData: any) => {
       if (roomData) {
         setCode(roomData.code);
+        setDoc(roomData.initialDoc);
         const pushLoc = `/editor/${roomData.roomID}`;
         push(
           {
@@ -35,7 +36,7 @@ export default function Home() {
     });
   };
 
-  const goToEditor = () => {
+  const goToEditor = async () => {
     push("/editor");
   };
 
