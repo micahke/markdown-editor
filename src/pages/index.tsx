@@ -15,7 +15,6 @@ export default function Home() {
     createRoom().then((roomData: any) => {
       if (roomData) {
         setCode(roomData.code);
-        setDoc(roomData.initialDoc);
         const pushLoc = `/editor/${roomData.roomID}`;
         push(
           {

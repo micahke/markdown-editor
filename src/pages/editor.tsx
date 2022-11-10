@@ -15,18 +15,18 @@ export default function Application(props: Props) {
   const { roomID } = props;
   const { setDoc } = useLive();
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        const response = await axios.get(`${API_PREFIX}/initial-doc`);
-        const newDoc = response.data.initialDoc;
-        setDoc(newDoc);
-      } catch (error: any) {
-        setDoc("# Welcome");
-      }
-    }
-    if (!roomID) getData();
-  }, []);
+  //   useEffect(() => {
+  //     async function getData() {
+  //       try {
+  //         const response = await axios.get(`${API_PREFIX}/initial-doc`);
+  //         const newDoc = response.data.initialDoc;
+  //         setDoc(newDoc);
+  //       } catch (error: any) {
+  //         setDoc("# Welcome");
+  //       }
+  //     }
+  //     if (!roomID) getData();
+  //   }, []);
 
   return (
     <Box>

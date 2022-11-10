@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { EditorView } from "@codemirror/view";
-import { socket, updateLiveDoc } from "../../core/socket";
+import { API_PREFIX, socket, updateLiveDoc } from "../../core/socket";
 import { EditorState } from "@codemirror/state";
 import { useToast } from "@chakra-ui/react";
+import axios from "axios";
 
 export type LiveDocument = {
   doc: string;
@@ -45,6 +46,17 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get(`${API_PREFIX}/initial-doc`);
+        const newDoc = response.data.initialDoc;
+        setDoc(newDoc);
+      } catch (error: any) {
+        setDoc("# Welcome");
+      }
+    }
+    getData();
+
     socket.on("doc-updated", (updatedDoc) => {
       console.log("updated");
       setDoc(updatedDoc);
