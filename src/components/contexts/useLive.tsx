@@ -13,6 +13,7 @@ export type LiveDocument = {
   code: string;
   setCode: (newCode: string) => void;
   setDoc: (newDoc: string) => void;
+  setGotData: (gotData: boolean) => void;
 };
 
 interface Props {
@@ -32,6 +33,7 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
   const [editor, setEditor] = useState<EditorView | null>(null);
   const [code, setCode] = useState("");
   const toast = useToast();
+  const [gotData, setGotData] = useState(false);
 
   function updateDoc(newDoc: string) {
     setDoc(newDoc);
@@ -55,7 +57,11 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
         setDoc("# Welcome");
       }
     }
-    getData();
+
+    if (!gotData) {
+      getData();
+      setGotData(true);
+    }
 
     socket.on("doc-updated", (updatedDoc) => {
       console.log("updated");
@@ -91,6 +97,7 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
     code,
     setCode,
     setDoc,
+    setGotData,
   };
 
   return (

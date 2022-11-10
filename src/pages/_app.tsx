@@ -5,11 +5,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { LiveDocProvider } from "../components/contexts/useLive";
 import "../core/socket";
 import { useEffect } from "react";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
       <LiveDocProvider>
+        <Head>
+          <title>Markdown Editor</title>
+        </Head>
         <Component {...pageProps} />
       </LiveDocProvider>
     </ChakraProvider>

@@ -1,11 +1,10 @@
 import { Box, Flex, Spacer, Heading } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect } from "react";
-import { useLive } from "../components/contexts/useLive";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 import Editor from "../components/editor/editor";
 import InviteButton from "../components/modals/invite";
 import Preview from "../components/preview/preview";
-import { API_PREFIX } from "../core/socket";
 
 interface Props {
   roomID: string;
@@ -13,23 +12,12 @@ interface Props {
 
 export default function Application(props: Props) {
   const { roomID } = props;
-  const { setDoc } = useLive();
-
-  //   useEffect(() => {
-  //     async function getData() {
-  //       try {
-  //         const response = await axios.get(`${API_PREFIX}/initial-doc`);
-  //         const newDoc = response.data.initialDoc;
-  //         setDoc(newDoc);
-  //       } catch (error: any) {
-  //         setDoc("# Welcome");
-  //       }
-  //     }
-  //     if (!roomID) getData();
-  //   }, []);
 
   return (
     <Box>
+      <Head>
+        <title>Editor {roomID ? ` - ${roomID}` : ""}</title>
+      </Head>
       <Flex
         alignItems="center"
         backgroundColor="#282c34"
@@ -39,12 +27,17 @@ export default function Application(props: Props) {
         zIndex="999"
         gap="10px"
       >
-        <Heading color="#F2EFE3">Markdown Editor</Heading>
+        <Heading color="#F2EFE3">
+          <Link href="/">Markdown Editor</Link>
+        </Heading>
         <Spacer />
+        <Link href="https://www.micahelias.com" target="_blank">
+          <Image src="/m-logo.png" alt="M" height="32" width="32" />
+        </Link>
         {roomID ? (
-          <>
+          <Box ml={1}>
             <InviteButton roomID={roomID} />
-          </>
+          </Box>
         ) : (
           <></>
         )}

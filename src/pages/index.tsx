@@ -1,13 +1,13 @@
 import { Button, Center, Spinner, useToast, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLive } from "../components/contexts/useLive";
 import { createRoom } from "../core/room";
 
 export default function Home() {
   const { push } = useRouter();
   const toast = useToast();
-  const { setCode, setDoc } = useLive();
+  const { setCode, setGotData } = useLive();
   const [loading, setLoading] = useState(false);
 
   const navigateToRoom = () => {
@@ -38,6 +38,10 @@ export default function Home() {
   const goToEditor = async () => {
     push("/editor");
   };
+
+  useEffect(() => {
+    setGotData(false);
+  }, [setGotData]);
 
   return (
     <Center height="100vh" backgroundColor="gray.800">
