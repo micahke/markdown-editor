@@ -1,5 +1,12 @@
-import {initializeApp} from 'firebase/app'
+import {initializeApp, setLogLevel} from 'firebase/app'
 import {Analytics, getAnalytics, isSupported, logEvent} from 'firebase/analytics'
+
+const runtime = process.env.NEXT_PUBLIC_RUNTIME as string;
+
+// silence warnings on prod to hide console output
+if (runtime === 'prod') {
+    setLogLevel('silent')
+}
 
 const config = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY as string,
@@ -18,8 +25,9 @@ isSupported().then(result => {
     if (result) analytics = getAnalytics(app)
 })
 
+
 export function trackEvent(event: string) {
-    if (analytics && process.env.NEXT_PUBLIC_RUNTIME as string == 'prod') {
+    if (analytics && runtime === 'prod') {
         console.log(event)
         logEvent(analytics, event)
     }
