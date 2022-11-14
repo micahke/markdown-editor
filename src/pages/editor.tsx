@@ -14,6 +14,8 @@ import InviteButton from "../components/modals/invite";
 import Preview from "../components/preview/preview";
 import { AiFillEye, AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
+import { trackEvent } from "../core/analytics";
+import { EVENTS } from "../core/events";
 
 interface Props {
   roomID: string;
@@ -24,6 +26,10 @@ export default function Application(props: Props) {
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const flexSize = isLargerThan700 ? 0.5 : 1.0;
   const [previewMode, setPreviewMode] = useState(false);
+
+  const trackReferral = () => {
+    trackEvent(EVENTS.WEBSITE_REFERRAL);
+  };
 
   return (
     <Box>
@@ -43,7 +49,11 @@ export default function Application(props: Props) {
           <Link href="/">Markdown Editor</Link>
         </Heading>
         <Spacer />
-        <Link href="https://www.micahelias.com" target="_blank">
+        <Link
+          href="https://www.micahelias.com"
+          onClick={trackReferral}
+          target="_blank"
+        >
           <Image src="/m-logo.png" alt="M" height="32" width="32" />
         </Link>
         <PreviewButton
