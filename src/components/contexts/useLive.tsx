@@ -83,7 +83,6 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
         title: `${username} has joined the room`,
         position: "bottom",
       });
-      trackEvent(EVENTS.INVITE_ACCEPTED);
     });
     return () => {
       socket.off("doc-updated");

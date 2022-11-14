@@ -6,6 +6,8 @@ import { GetServerSideProps, NextPageContext } from "next";
 import JoinModal from "../../components/modals/join";
 import { Box, useToast } from "@chakra-ui/react";
 import { authenticatePasscode } from "../../core/room";
+import { trackEvent } from "../../core/analytics";
+import { EVENTS } from "../../core/events";
 
 export default function Room() {
   const router = useRouter();
@@ -16,6 +18,7 @@ export default function Room() {
   const attemptValidation = async (name: string, pin: string) => {
     if (await authenticatePasscode(rid as string, pin)) {
       joinRoom(rid as string, name);
+      trackEvent(EVENTS.INVITE_ACCEPTED);
       setValidated(true);
     } else {
       toast({
