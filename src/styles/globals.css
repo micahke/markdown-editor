@@ -13,13 +13,15 @@ a {
 
 #preview-container {
 	background-color: #F2EFE3;
-	padding: 20px;
+    padding: 20px;
 	height: 100%;
 }
 
-.markdown-body pre {
+/* .markdown-body pre {
 	background-color: yellow;
-}
+} */
+
+
 
 * {
   box-sizing: border-box;

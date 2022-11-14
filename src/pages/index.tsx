@@ -2,6 +2,8 @@ import { Button, Center, Spinner, useToast, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useLive } from "../components/contexts/useLive";
+import { trackEvent } from "../core/analytics";
+import { EVENTS } from "../core/events";
 import { createRoom } from "../core/room";
 
 export default function Home() {
@@ -15,6 +17,7 @@ export default function Home() {
     createRoom().then((roomData: any) => {
       if (roomData) {
         setCode(roomData.code);
+        trackEvent(EVENTS.ROOM_CREATED);
         const pushLoc = `/editor/${roomData.roomID}`;
         push(
           {
@@ -36,6 +39,7 @@ export default function Home() {
   };
 
   const goToEditor = async () => {
+    trackEvent(EVENTS.DOCUMENT_CREATED);
     push("/editor");
   };
 

@@ -32,8 +32,8 @@ const Preview: React.FC = () => {
     .use(remarkReact, options as any)
     .processSync(doc).result;
   return (
-    <div id="preview-container" className="preview markdown-body">
-      {md}
+    <div id="preview-container" className="markdown-body">
+      <div style={{ paddingBottom: "20px" }}>{md}</div>
     </div>
   );
 };

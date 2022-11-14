@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { EditorView } from "@codemirror/view";
 import { API_PREFIX, socket, updateLiveDoc } from "../../core/socket";
-import { EditorState } from "@codemirror/state";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { EVENTS } from "../../core/events";
+import { trackEvent } from "../../core/analytics";
 
 export type LiveDocument = {
   doc: string;
@@ -82,6 +83,7 @@ export const LiveDocProvider: React.FC<Props> = ({ children }) => {
         title: `${username} has joined the room`,
         position: "bottom",
       });
+      trackEvent(EVENTS.INVITE_ACCEPTED);
     });
     return () => {
       socket.off("doc-updated");
