@@ -12,9 +12,9 @@ a {
 }
 
 #preview-container {
-	background-color: #F2EFE3;
-    padding: 20px;
-	height: 100%;
+  background-color: #f2efe3;
+  padding: 20px;
+  height: 100%;
 }
 
 /* .markdown-body pre {
@@ -22,7 +22,7 @@ a {
 } */
 
 .editor-clipped {
-    clip-path: polygon(20% 0%, 100% 0, 83% 100%, 0% 100%);
+  clip-path: polygon(20% 0%, 100% 0, 83% 100%, 0% 100%);
 }
 
 * {

@@ -1,7 +1,7 @@
-import process from 'process'
+import process from "process";
 
-if (typeof global === 'undefined' || typeof global.process === 'undefined') {
+if (typeof global === "undefined" || typeof global.process === "undefined") {
   /* global window */
-  window.global = window
-  window.process = process
+  window.global = window;
+  window.process = process;
 }
