@@ -9,8 +9,9 @@ import {
   Heading,
   Flex,
   useColorModeValue,
-  HStack,
+  SimpleGrid,
 } from "@chakra-ui/react";
+import { features } from "../static/features";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -18,7 +19,9 @@ import { useLive } from "../components/contexts/useLive";
 import { trackEvent } from "../core/analytics";
 import { EVENTS } from "../core/events";
 import { createRoom } from "../core/room";
-import Link from "next/link";
+import Card from "../components/landing/card";
+import Navbar from "../components/landing/navbar";
+import Banner from "../components/landing/banner";
 
 export default function Home() {
   const { push } = useRouter();
@@ -63,68 +66,35 @@ export default function Home() {
 
   return (
     <>
-      <Flex
-        py={5}
-        px={{ base: 5, md: 20 }}
-        boxShadow={useColorModeValue("sm", "sm-dark")}
-        position={"fixed"}
+      <Navbar />
+      <Banner
+        goToEditor={goToEditor}
+        loading={loading}
+        navigateToRoom={navigateToRoom}
+      />
+      <Box
         width={"100%"}
-        alignItems={"center"}
-        backgroundColor={"white"}
-        zIndex={999}
+        py={10}
+        backgroundColor={"gray.800"}
+        px={{ base: 5, md: 20 }}
       >
-        <Image src={"/logo.svg"} alt={"logo"} height={30} width={300} />
-        <Spacer />
-        <Link href="https://www.micahelias.com" target={"_blank"}>
-          <Image src={"/m-logo.svg"} width={30} height={30} alt="m-logo" />
-        </Link>
-      </Flex>
-      <Flex height={"42rem"} px={{ base: 5, md: 20 }} pt={180}>
-        <Center>
-          <VStack>
-            <Heading
-              size={{ base: "xl", sm: "2xl" }}
-              textAlign={{ base: "center", md: "inherit" }}
-              mb={3}
-            >
-              A collaborative editor for quick note taking.
-            </Heading>
-            <Flex alignSelf={{ base: "center", md: "flex-start" }} gap={3}>
-              <Button size={"lg"} colorScheme={"gray"} onClick={goToEditor}>
-                Write solo
-              </Button>
-              {!loading ? (
-                <Button
-                  size={"lg"}
-                  colorScheme={"teal"}
-                  onClick={navigateToRoom}
-                >
-                  Go to editor
-                </Button>
-              ) : (
-                <Spinner
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="teal"
-                  size="xl"
-                />
-              )}
-            </Flex>
-          </VStack>
-        </Center>
-        <Center display={{ base: "none", lg: "inherit" }}>
-          <Box className="editor-clipped">
-            <Image
-              src={"/placeholder.svg"}
-              height={900}
-              width={900}
-              alt="editor"
+        <Flex justifyContent={"center"} pb={10}>
+          <Heading color="white" alignSelf={"center"}>
+            Features
+          </Heading>
+        </Flex>
+        <SimpleGrid minChildWidth={300} spacing={30}>
+          {features.map((feature, index) => (
+            <Card
+              height={40}
+              title={feature.title}
+              desc={feature.description}
+              icon={feature.icon}
+              key={index}
             />
-            {/* <Image src={"/editor.png"} height={900} width={900} alt="editor" /> */}
-          </Box>
-        </Center>
-      </Flex>
+          ))}
+        </SimpleGrid>
+      </Box>
     </>
   );
 }
