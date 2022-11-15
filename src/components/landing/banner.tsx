@@ -21,7 +21,7 @@ export default function Banner({ goToEditor, loading, navigateToRoom }: Props) {
   return (
     <Flex
       height={{
-        base: "52rem",
+        base: "30rem",
         md: "52rem",
       }}
       px={{
