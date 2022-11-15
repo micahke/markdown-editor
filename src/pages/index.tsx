@@ -79,7 +79,7 @@ export default function Home() {
           <Image src={"/m-logo.svg"} width={30} height={30} alt="m-logo" />
         </Link>
       </Flex>
-      <Flex height={"42rem"} px={{ base: 5, md: 20 }} pt={"75px"}>
+      <Flex height={"42rem"} px={{ base: 5, md: 20 }} pt={180}>
         <Center>
           <VStack>
             <Heading
