@@ -2,9 +2,9 @@ name: markdown CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main"]
+    branches: ["main"]
 
 jobs:
   lint:
@@ -17,10 +17,11 @@ jobs:
       - run: npx prettier --check .
   build:
     runs-on: ubuntu-latest
-#     needs: [lint, test]
+    #     needs: [lint, test]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: npm run build   
+      - run: npm ci
+      - run: npm run build
