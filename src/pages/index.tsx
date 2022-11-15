@@ -107,7 +107,7 @@ export default function Home() {
             </HStack>
           </VStack>
         </Center>
-        <Center mt={20}>
+        <Center mt={80}>
           <Box className="editor-clipped">
             <Image src={"/editor.png"} height={900} width={900} alt="editor" />
           </Box>
