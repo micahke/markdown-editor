@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import useCodeMirror from "./use-codemirror";
 import { EditorState } from "@codemirror/state";
 import { useLive } from "../contexts/useLive";

@@ -1,5 +1,5 @@
 import { EditorState, Transaction } from "@codemirror/state";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   EditorView,
   keymap,

@@ -1,19 +1,6 @@
-import {
-  Button,
-  Center,
-  Spinner,
-  Box,
-  Spacer,
-  useToast,
-  VStack,
-  Heading,
-  Flex,
-  useColorModeValue,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, useToast, Heading, Flex, SimpleGrid } from "@chakra-ui/react";
 import { features } from "../static/features";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useLive } from "../components/contexts/useLive";
 import { trackEvent } from "../core/analytics";

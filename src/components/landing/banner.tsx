@@ -9,7 +9,6 @@ import {
   Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { AppProps } from "next/app";
 
 interface Props {
   goToEditor: () => void;

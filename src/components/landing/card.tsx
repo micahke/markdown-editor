@@ -1,5 +1,4 @@
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
-import { BiNetworkChart } from "react-icons/bi";
 
 interface Props {
   title?: string;

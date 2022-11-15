@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { joinRoom, socket } from "../../core/socket";
 import Application from "../editor";
-import { GetServerSideProps, NextPageContext } from "next";
 import JoinModal from "../../components/modals/join";
 import { Box, useToast } from "@chakra-ui/react";
 import { authenticatePasscode } from "../../core/room";

@@ -3,8 +3,6 @@ import { EditorView } from "@codemirror/view";
 import { API_PREFIX, socket, updateLiveDoc } from "../../core/socket";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { EVENTS } from "../../core/events";
-import { trackEvent } from "../../core/analytics";
 
 export type LiveDocument = {
   doc: string;
