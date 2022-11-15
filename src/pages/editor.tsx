@@ -54,7 +54,7 @@ export default function Application(props: Props) {
           onClick={trackReferral}
           target="_blank"
         >
-          <Image src="/m-logo.png" alt="M" height="32" width="32" />
+          <Image src="/m-logo2.svg" alt="M" height="32" width="32" />
         </Link>
         <PreviewButton
           isLargerThan700={isLargerThan700}

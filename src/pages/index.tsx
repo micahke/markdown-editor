@@ -65,25 +65,31 @@ export default function Home() {
     <>
       <Flex
         py={5}
-        px={20}
+        px={{ base: 5, md: 20 }}
         boxShadow={useColorModeValue("sm", "sm-dark")}
         position={"fixed"}
         width={"100%"}
         alignItems={"center"}
+        backgroundColor={"white"}
+        zIndex={999}
       >
         <Image src={"/logo.svg"} alt={"logo"} height={30} width={300} />
         <Spacer />
         <Link href="https://www.micahelias.com" target={"_blank"}>
-          <Image src={"/m-logo2.png"} width={30} height={30} alt="m-logo" />
+          <Image src={"/m-logo.svg"} width={30} height={30} alt="m-logo" />
         </Link>
       </Flex>
-      <Flex height={"42rem"} px={20}>
+      <Flex height={"42rem"} px={{ base: 5, md: 20 }} pt={"75px"}>
         <Center>
           <VStack>
-            <Heading size={"2xl"} mb={3}>
+            <Heading
+              size={{ base: "xl", sm: "2xl" }}
+              textAlign={{ base: "center", md: "inherit" }}
+              mb={3}
+            >
               A collaborative editor for quick note taking.
             </Heading>
-            <HStack alignSelf={"flex-start"}>
+            <Flex alignSelf={{ base: "center", md: "flex-start" }} gap={3}>
               <Button size={"lg"} colorScheme={"gray"} onClick={goToEditor}>
                 Write solo
               </Button>
@@ -104,12 +110,18 @@ export default function Home() {
                   size="xl"
                 />
               )}
-            </HStack>
+            </Flex>
           </VStack>
         </Center>
-        <Center>
-          <Box className="editor-clipped" mt={"6rem"}>
-            <Image src={"/editor.png"} height={900} width={900} alt="editor" />
+        <Center display={{ base: "none", lg: "inherit" }}>
+          <Box className="editor-clipped">
+            <Image
+              src={"/placeholder.svg"}
+              height={900}
+              width={900}
+              alt="editor"
+            />
+            {/* <Image src={"/editor.png"} height={900} width={900} alt="editor" /> */}
           </Box>
         </Center>
       </Flex>
